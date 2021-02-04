@@ -1,4 +1,6 @@
 <script lang="ts">
+    import UserDetails from "./UserDetails.svelte";
+
     type User = {
         login: string;
         avatar_url: string;
@@ -21,12 +23,23 @@
 <section class="w-1/2 m-auto border border-gray-400 p-8 rounded">
     {#await allUsersPromise then users}
       {#each users as user}
-        <div class="m-4 cursor-pointer">
-          <div class="flex">
+        <div
+            class="m-4 cursor-pointer"
+            on:click={() => (user.showDetails = true)}>
+            <div class="flex">
             <img class="rounded-full w-12" src={user.avatar_url} alt="avatar" />
             <p class="my-auto font-semibold ml-2">{user.login}</p>
-          </div>
-        </div>
+            </div>
+            {#if user.showDetails}
+            <UserDetails
+                userLogin={user.login}
+                on:closeDetails={() => {
+                setTimeout(() => (user.showDetails = false));
+                }}
+            />
+            {/if}
+      </div>
+
       {/each}
     {/await}
 </section>
