@@ -9,7 +9,7 @@
 
 
     async function getUsers(): Promise<User[]> {
-      const res = await fetch('https://api.github.com/users');
+      const res = await fetch("http://localhost:5001/users");
       const users = await res.json();
       if (res.ok) {
         return users;
